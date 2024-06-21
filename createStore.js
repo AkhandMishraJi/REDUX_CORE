@@ -32,15 +32,17 @@ function todoReducer(state , action) {
     type : ADD_TODO ,
     payload : {todoText}
 })
+const deleteTodo = (id) =>({
+    type : DEL_TODO,
+    payload : {todoId :  id}
+})
  
 const {dispatch ,  subscribe , getState , replaceReducer} = createStore(todoReducer , [])
 subscribe(() => console.log(getState()))
 dispatch(addTodo('TODO BY FUNCJS'))
 dispatch(addTodo('ANOTHER TODO BY FUNCJS'))
+dispatch(addTodo('ANOTHER 3RD TODO BY FUNCJS'))
 
-dispatch({
-    type : DEL_TODO,
-    payload : {todoId :  2}
-}) 
+dispatch(deleteTodo(3)) 
 
 
