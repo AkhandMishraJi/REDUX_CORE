@@ -13,7 +13,18 @@ function todoReducer(state , action) {
     }else if (action.type == 'delete_todo') {
         const todo = action.payload.todo
         return state.filter(t => t.id != todo.id)
+    }else if (action.type == "edit_todo") {
+        const todo = action.payload.todo
+     const todoText = action.payload.todoText
+     return state.map( t => {
+        if (t.id == todo.id) {
+            t.text = todoText
+        }
+        return t
+     })
     }
+    return state
 }
  
-const response = createStore()
+const response = createStore(todoReducer , [])
+console.log(response.getState());
