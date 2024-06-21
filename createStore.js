@@ -1,7 +1,10 @@
 import { createStore } from "redux";
  
+const ADD_TODO = 'add_todo'
+const DEL_TODO = 'delete_todo'
+const UPD_TODO = "edit_todo"
 function todoReducer(state , action) {
-    if (action.type == 'add_todo') {
+    if (action.type == ADD_TODO) {
         const todoText = action.payload.todoText
         return [
             ...state , 
@@ -10,10 +13,10 @@ function todoReducer(state , action) {
                 id : (state.length == 0) ?  1 : state[state.length -1].id + 1
             }
         ]
-    }else if (action.type == 'delete_todo') {
-        const todo = action.payload.todo
-        return state.filter(t => t.id != todo.id)
-    }else if (action.type == "edit_todo") {
+    }else if (action.type == DEL_TODO) {
+        const todoId = action.payload.todoId
+        return state.filter(t => t.id != todoId)
+    }else if (action.type == UPD_TODO) {
         const todo = action.payload.todo
      const todoText = action.payload.todoText
      return state.map( t => {
@@ -25,6 +28,19 @@ function todoReducer(state , action) {
     }
     return state
 }
+ const addTodo = (todoText) => ({
+    type : ADD_TODO ,
+    payload : {todoText}
+})
  
-const response = createStore(todoReducer , [])
-console.log(response.getState());
+const {dispatch ,  subscribe , getState , replaceReducer} = createStore(todoReducer , [])
+subscribe(() => console.log(getState()))
+dispatch(addTodo('TODO BY FUNCJS'))
+dispatch(addTodo('ANOTHER TODO BY FUNCJS'))
+
+dispatch({
+    type : DEL_TODO,
+    payload : {todoId :  2}
+}) 
+
+
